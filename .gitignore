@@ -1,0 +1,28 @@
+# Raw data
+data/*
+!data/.gitkeep
+*.csv
+*.zip
+
+# Secrets
+.env
+
+# Models
+models/*
+!models/.gitkeep
+*.joblib
+
+# Phase 1 material
+*.pptx
+eda_cache/
+eda_outputs/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node
+node_modules/
+.next/

@@ -2,7 +2,7 @@
 
 import json
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import timedelta, timezone
 from pathlib import Path
 
@@ -22,6 +22,9 @@ class Settings:
     postgres_db: str
     postgres_host: str
     postgres_port: int
+    llm_provider: str = ""
+    llm_api_key: str = field(default="", repr=False)
+    llm_model: str = ""
 
 
 def load_settings() -> Settings:
@@ -32,6 +35,9 @@ def load_settings() -> Settings:
         postgres_db=os.environ["POSTGRES_DB"],
         postgres_host=os.environ.get("POSTGRES_HOST", "localhost"),
         postgres_port=int(os.environ.get("POSTGRES_PORT", "5432")),
+        llm_provider=os.environ.get("LLM_PROVIDER", ""),
+        llm_api_key=os.environ.get("LLM_API_KEY", ""),
+        llm_model=os.environ.get("LLM_MODEL", ""),
     )
 
 

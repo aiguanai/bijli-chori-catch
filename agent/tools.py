@@ -19,6 +19,9 @@ DEFAULT_WEEKLY_BUDGET = 20
 # or two are normal, and a meter that stopped reporting must not stay ranked.
 LOOKBACK_DAYS = 7
 
+# Floor for spreads, so a city of near-identical scores cannot divide by zero.
+MIN_SPREAD = 0.01
+
 
 def _iso(moment: datetime) -> str:
     return moment.astimezone(IST).isoformat()
@@ -29,6 +32,13 @@ def _city_code(meter_id: str) -> str:
     if code not in CITY_NAMES:
         raise ValueError(f"Unknown city in meter id: {meter_id!r}")
     return code
+
+
+def _robust_z(value: float, others: list[float]) -> float:
+    """How many typical spreads value sits above the median of others."""
+    middle = median(others)
+    spread = 1.4826 * median(abs(other - middle) for other in others)
+    return round((value - middle) / max(spread, MIN_SPREAD), 1)
 
 
 def get_top_risky_meters(n: int) -> list[dict]:
@@ -111,6 +121,7 @@ def compare_with_peers(meter_id: str) -> dict:
         "risk_score": latest["risk_score"],
         "peer_count": len(peers),
         "peer_median_risk_score": median(peer_scores) if peer_scores else None,
+        "risk_score_peer_z": _robust_z(latest["risk_score"], peer_scores) if peer_scores else None,
         "risk_percentile": round(100 * sum(s < latest["risk_score"] for s in peer_scores) / len(peer_scores), 1)
         if peer_scores
         else None,

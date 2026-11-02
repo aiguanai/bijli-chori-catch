@@ -114,7 +114,7 @@ CREATE TABLE settings (             -- written by dashboard, read by agent
 - **Time:** Indian Standard Time, ISO 8601 (`2021-03-15T18:30:00+05:30`).
 - **Risk score:** float 0 to 1, higher = more suspicious, updated once a day per meter.
 - **Weekly budget:** set in the dashboard, default 20, stored in `settings` (`weekly_budget`).
-- **Test meters:** about 20% of the 84 CEEW meters, split evenly between Mathura and Bareilly, picked once with seed 42, saved in `shared/test_meters.json`. Nobody trains, tunes or augments on them.
+- **Test meters:** 17 of the 84 CEEW meters (about 20%), split in proportion to city size (8 Mathura, 9 Bareilly), picked once with seed 42, saved in `shared/test_meters.json`. Nobody trains, tunes or augments on them.
 - **`risk_scores.features`:** a JSON object with exactly these keys, one row per meter per day. Use `null` for a value that cannot be computed; do not drop the key. The agent tools read these names.
 
 | Key | Meaning |

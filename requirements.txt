@@ -1,6 +1,10 @@
+fastapi
+httpx
 numpy
+openai
 pandas
 psycopg[binary]
 pytest
 python-dotenv
 SQLAlchemy>=2
+uvicorn
